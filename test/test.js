@@ -58,5 +58,13 @@ describe('Span', function() {
       span(266400000).should.equal('3d 2h');
       span(259320000).should.equal('3d 2m');
     });
+    it('should support big values', function() {
+      span(1000).should.equal('1s')
+      span(60000).should.equal('1m')
+      span(3600000).should.equal('1h')
+      span(86400000).should.equal('1d')
+      span(604800000).should.equal('1w')
+      span(31557600000).should.equal('1y')
+    })
   });
 });

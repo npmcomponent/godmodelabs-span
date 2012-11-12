@@ -1,4 +1,5 @@
 var intervals = {
+  YEAR: 31557600000, 
   WEEK: 604800000,
   DAY: 86400000,
   HOUR: 3600000,
@@ -22,6 +23,7 @@ function ms(str) {
     if (type == 'h') ms += date[type] * intervals.HOUR;
     if (type == 'd') ms += date[type] * intervals.DAY;
     if (type == 'w') ms += date[type] * intervals.WEEK;
+    if (type == 'y') ms += date[type] * intervals.YEAR;
   }
   return ms;
 }
@@ -54,6 +56,7 @@ function parseDate(str) {
 function parseRelative(str) {
   var str = str
     .replace(/in/, '')
+    .replace(/years|year|jahr|jahre|y|j/, 'y')
     .replace(/weeks|week|wochen|woche/, 'w')
     .replace(/days|day|tage|tag/, 'd')
     .replace(/hours|hour|stunden|stunde/, 'h')
