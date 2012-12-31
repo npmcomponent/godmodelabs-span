@@ -1,7 +1,8 @@
-
 # span
 
-span parses and returns timespans.
+parses and returns timespans
+
+[![Build Status](https://travis-ci.org/godmodelabs/span.png?branch=master)](https://travis-ci.org/godmodelabs/span)
 
 ## Usage
 
