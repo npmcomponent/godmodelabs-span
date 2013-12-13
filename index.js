@@ -6,9 +6,17 @@ var intervals = {
   MINUTE: 60000,
   SECOND: 1000,
   MILLISECOND: 1
-}
+};
 
 module.exports = span;
+
+/**
+ * Convert a number to span string and vice versa.
+ *
+ * @param {Number|String} val
+ * @return {Number|String}
+ * @api public
+ */
 
 function span(val) {
   return typeof val == 'number' || val == parseInt(val, 10)
@@ -16,22 +24,13 @@ function span(val) {
     : ms(val);
 };
 
-function ms(str) {
-  var date = parseDate(str);
-  var ms = 0;
-  for (var type in date) {
-    switch(type) {
-      case 'ms': ms += date[type]; break;
-      case 's': ms += date[type] * intervals.SECOND; break;
-      case 'm': ms += date[type] * intervals.MINUTE; break;
-      case 'h': ms += date[type] * intervals.HOUR; break;
-      case 'd': ms += date[type] * intervals.DAY; break;
-      case 'w': ms += date[type] * intervals.WEEK; break;
-      case 'y': ms += date[type] * intervals.YEAR;
-    }
-  }
-  return ms;
-}
+/**
+ * Convert `ms` to a span string.
+ *
+ * @param {Number} ms
+ * @return {String}
+ * @api private
+ */
 
 function str(ms) {
   var output = [];
@@ -50,6 +49,39 @@ function str(ms) {
   return output.join(' ');
 }
 
+/**
+ * Convert a date `str` to milliseconds.
+ *
+ * @param {String} str
+ * @return {Number}
+ * @api private
+ */
+
+function ms(str) {
+  var date = parseDate(str);
+  var ms = 0;
+  for (var type in date) {
+    switch(type) {
+      case 'ms': ms += date[type]; break;
+      case 's': ms += date[type] * intervals.SECOND; break;
+      case 'm': ms += date[type] * intervals.MINUTE; break;
+      case 'h': ms += date[type] * intervals.HOUR; break;
+      case 'd': ms += date[type] * intervals.DAY; break;
+      case 'w': ms += date[type] * intervals.WEEK; break;
+      case 'y': ms += date[type] * intervals.YEAR;
+    }
+  }
+  return ms;
+}
+
+/**
+ * Parse an absolute or relative date string into a span in milliseconds.
+ *
+ * @param {String} str
+ * @return {Number}
+ * @api private
+ */
+
 function parseDate(str) {
   var str = str.replace(/ /g, '');
   
@@ -57,6 +89,14 @@ function parseDate(str) {
   if (str.indexOf(':') > -1) throw 'Absolute date parsing not yet implemented';
   return parseRelative(str);
 }
+
+/**
+ * Parse a relative span `str`.
+ *
+ * @param {String} str
+ * @return {Object}
+ * @api private
+ */
 
 function parseRelative(str) {
   var str = str
