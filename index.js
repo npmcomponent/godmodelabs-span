@@ -56,12 +56,12 @@ function parseDate(str) {
 function parseRelative(str) {
   var str = str
     .replace(/in/, '')
-    .replace(/years|year|jahr|jahre|y|j/, 'y')
-    .replace(/weeks|week|wochen|woche/, 'w')
-    .replace(/days|day|tage|tag/, 'd')
-    .replace(/hours|hour|stunden|stunde/, 'h')
-    .replace(/minutes|minute|mins|min|minuten/, 'm')
-    .replace(/seconds|second|secs|sec|sekunden|sekunde|sek/, 's')
+    .replace(/years?|jahre?|j/, 'y')
+    .replace(/weeks?|wochen?/, 'w')
+    .replace(/days?|tage?/, 'd')
+    .replace(/hours?|stunden?/, 'h')
+    .replace(/minutes?|mins?|minuten?/, 'm')
+    .replace(/seconds?|secs?|sekunden?|sek/, 's')
 
   var duration = 0;
   var date = {};
