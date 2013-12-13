@@ -8,22 +8,27 @@ var intervals = {
   MILLISECOND: 1
 }
 
+module.exports = span;
+
 function span(val) {
-  if (typeof val == 'number' || val == parseInt(val, 10)) return str(val);
-  return ms(val);
+  return typeof val == 'number' || val == parseInt(val, 10)
+    ? str(val)
+    : ms(val);
 };
 
 function ms(str) {
   var date = parseDate(str);
   var ms = 0;
   for (var type in date) {
-    if (type == 'ms') ms += date[type];
-    if (type == 's') ms += date[type] * intervals.SECOND;
-    if (type == 'm') ms += date[type] * intervals.MINUTE;
-    if (type == 'h') ms += date[type] * intervals.HOUR;
-    if (type == 'd') ms += date[type] * intervals.DAY;
-    if (type == 'w') ms += date[type] * intervals.WEEK;
-    if (type == 'y') ms += date[type] * intervals.YEAR;
+    switch(type) {
+      case 'ms': ms += date[type]; break;
+      case 's': ms += date[type] * intervals.SECOND; break;
+      case 'm': ms += date[type] * intervals.MINUTE; break;
+      case 'h': ms += date[type] * intervals.HOUR; break;
+      case 'd': ms += date[type] * intervals.DAY; break;
+      case 'w': ms += date[type] * intervals.WEEK; break;
+      case 'y': ms += date[type] * intervals.YEAR;
+    }
   }
   return ms;
 }
@@ -32,14 +37,14 @@ function str(ms) {
   var output = [];
   var buf;
   for (var i in intervals) {
-    if (ms>=intervals[i]) {
+    if (ms >= intervals[i]) {
       buf = Math.floor(ms/intervals[i]);
-      if (i!='MILLISECOND') {
-        output.push(buf+i.substr(0,1).toLowerCase());
+      if (i != 'MILLISECOND') {
+        output.push(buf + i.substr(0,1).toLowerCase());
       } else if (!output.length) {
-        output.push(buf+'ms');
+        output.push(buf + 'ms');
       }
-      ms -= buf*intervals[i];
+      ms -= buf * intervals[i];
     }
   }
   return output.join(' ');
@@ -48,8 +53,8 @@ function str(ms) {
 function parseDate(str) {
   var str = str.replace(/ /g, '');
   
-  if (str.search('in') > -1) return parseRelative(str);
-  if (str.search(':') > -1) throw 'Absolute date parsing not yet implemented';
+  if (str.indexOf('in') > -1) return parseRelative(str);
+  if (str.indexOf(':') > -1) throw 'Absolute date parsing not yet implemented';
   return parseRelative(str);
 }
 
@@ -61,7 +66,7 @@ function parseRelative(str) {
     .replace(/days?|tage?/, 'd')
     .replace(/hours?|stunden?/, 'h')
     .replace(/minutes?|mins?|minuten?/, 'm')
-    .replace(/seconds?|secs?|sekunden?|sek/, 's')
+    .replace(/seconds?|secs?|sekunden?|sek/, 's');
 
   var duration = 0;
   var date = {};
@@ -76,5 +81,3 @@ function parseRelative(str) {
   }
   return date;
 }
-
-module.exports = span;
