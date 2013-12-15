@@ -96,6 +96,7 @@ function parseDate(str) {
  * @param {String} str
  * @return {Object}
  * @api private
+ * @todo write proper parser and move to seperate project
  */
 
 function parseRelative(str) {
